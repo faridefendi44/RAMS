@@ -6,5 +6,4 @@ plotly
 utils
 plot
 scipy
-
 dotenv
