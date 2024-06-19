@@ -5,5 +5,4 @@ numpy
 plotly
 utils
 plot
-scipy
-scipy.stats
+scipy.special
