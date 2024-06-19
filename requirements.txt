@@ -6,3 +6,5 @@ plotly
 utils
 plot
 scipy
+os
+dotenv
