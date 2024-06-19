@@ -2,13 +2,18 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import numpy as np
+from dotenv import load_dotenv
+import os
 
 from utils import get_csv_url
 from plot import plot_interactive_weibull
 from data_processing import process_failure_rate, process_availability
 
-# URL default Google Sheets
-url_default = "https://docs.google.com/spreadsheets/d/1toTRK3kANu7lL7BuNcNT37H4I3ztnYNi/edit?usp=sharing&ouid=111987242205368293051&rtpof=true&sd=true"
+# Load variabel lingkungan dari file .env
+load_dotenv()
+
+# URL default dari file .env
+url_default = os.getenv('GOOGLE_SHEETS_URL')
 
 # Input URL Google Sheets di sidebar
 st.sidebar.header('URL Google Sheets')

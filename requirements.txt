@@ -6,4 +6,4 @@ plotly
 utils
 plot
 scipy
-# dotenv
+python-dotenv
