@@ -4,3 +4,5 @@ datetime
 numpy
 plotly
 utils
+plot
+scipy.stats
