@@ -1,12 +1,13 @@
 import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
-from scipy.special import gamma
+from scipy.stats import weibull_min
+
 
 def plot_interactive_weibull(ttf_data):
     mean_ttf = np.mean(ttf_data)
-    shape, loc, scale = weibull_fit(ttf_data)
-    scale = mean_ttf / gamma(1 + 1 / shape)
+    shape, loc, scale = weibull_min.fit(ttf_data, floc=0)
+    scale = mean_ttf / np.math.gamma(1 + 1 / shape)
     fr = 1 / ttf_data
     shape = 1 / np.std(np.log(fr))
 
@@ -26,16 +27,3 @@ def plot_interactive_weibull(ttf_data):
     st.write(f"Shape (c): {shape:.4f}")
     st.write(f"Location (loc): {loc:.4f}")
     st.write(f"Scale (scale): {scale:.4f}")
-
-def weibull_fit(ttf_data):
-    """Manual fitting function to estimate Weibull parameters"""
-    shape = 1.5  # Initial guess
-    loc = 0  # Forcing location to zero
-    scale = np.mean(ttf_data) / gamma(1 + 1 / shape)
-    return shape, loc, scale
-
-# Contoh data
-ttf_data = np.random.weibull(1.5, 1000) * 1000
-
-# Panggil fungsi untuk membuat grafik
-plot_interactive_weibull(ttf_data)
