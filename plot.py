@@ -21,7 +21,14 @@ def plot_interactive_weibull(ttf_data):
     fig.add_trace(go.Scatter(x=x, y=hazard_function, mode='lines', name='Hazard Function', line=dict(dash='dash')))
     fig.update_layout(title='Grafik Weibull Distribution, Hazard Function, dan TTF Data',
                       xaxis_title='Time-to-Failure (TTF)',
-                      yaxis_title='Probability Density / Hazard Function')
+                      yaxis_title='Probability Density / Hazard Function',
+                      legend=dict(
+                          orientation="h",
+                          yanchor="bottom",
+                          y=1.02,
+                          xanchor="right",
+                          x=1
+                      ))
     st.plotly_chart(fig, use_container_width=True)
     st.write("Weibull Parameters:")
     st.write(f"Shape (c): {shape:.4f}")
