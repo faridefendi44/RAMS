@@ -227,9 +227,9 @@ def process_availability(data):
                                          data['TTF (jam)'] / data['Total Jumlah Gangguan'], 0)
                 data['MTTF'] = np.where((data['Jenis service'] == 'Penggantian Komponen') | (data['Jenis service'] == 'Pertukaran Komponen'), 
                                          data['TTF (jam)'] / data['Total Jumlah Gangguan'], 0)
-                filtered_data['tgl & waktu selelsai tdl'] = pd.to_datetime(filtered_data['tgl & waktu selelsai tdl'], format='%d/%m/%Y %H:%M')
-                filtered_data['Tgl & waktu'] = pd.to_datetime(filtered_data['Tgl & waktu'], format='%d/%m/%Y %H:%M')
-                filtered_data['MTTR'] = (((filtered_data['tgl & waktu selelsai tdl']) - (filtered_data['Tgl & waktu'])).dt.total_seconds() / 3600) * (20/24)
+                data['tgl & waktu selelsai tdl'] = pd.to_datetime(data['tgl & waktu selelsai tdl'], format='%d/%m/%Y %H:%M')
+                data['Tgl & waktu'] = pd.to_datetime(data['Tgl & waktu'], format='%d/%m/%Y %H:%M')
+                data['MTTR'] = (((data['tgl & waktu selelsai tdl']) - (data['Tgl & waktu'])).dt.total_seconds() / 3600) * (20/24)
                 data['MTTR'] = data['MTTR'].fillna(0)
                 data['Availability'] = np.where((data['MTTR'] > 0), 
                 np.where((data['MTBF'] > 0), (data['MTBF'] / (data['MTBF'] + data['MTTR'])) * 100, (data['MTTF'] / (data['MTTF'] + data['MTTR'])) * 100 ),
