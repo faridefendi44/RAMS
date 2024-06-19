@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
+import scipy
 from scipy.stats import weibull_min
 
 def plot_interactive_weibull(ttf_data):
