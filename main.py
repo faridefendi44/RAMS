@@ -13,7 +13,7 @@ from data_processing import process_failure_rate, process_availability
 load_dotenv()
 
 # URL default dari file .env
-url_default = os.getenv('GOOGLE_SHEETS_URL')
+url_default = "https://docs.google.com/spreadsheets/d/1toTRK3kANu7lL7BuNcNT37H4I3ztnYNi/edit?usp=sharing&ouid=111987242205368293051&rtpof=true&sd=true"
 
 # Input URL Google Sheets di sidebar
 st.sidebar.header('URL Google Sheets')
