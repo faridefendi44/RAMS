@@ -8,10 +8,6 @@ import math
 def plot_interactive_weibull(ttf_data):
     mean_ttf = np.mean(ttf_data)
     shape, loc, scale = weibull_min.fit(ttf_data, floc=0)
-    scale = mean_ttf / np.math.gamma(1 + 1 / shape)
-    fr = 1 / ttf_data
-    shape = 1 / np.std(np.log(fr))
-
     x = np.linspace(min(ttf_data), max(ttf_data), 10000)
     pdf_values = (shape / scale) * (x / scale)**(shape - 1) * np.exp(-((x / scale)**shape))
     hazard_function = pdf_values / (1 - np.exp(-((x / scale)**shape)))
