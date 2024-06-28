@@ -51,21 +51,33 @@ def process_failure_rate(data):
             filtered_data = data[(data['Klasifikasi Komponen (L1)'] == selected_l1) & 
                                  (data['Klasifikasi System/ Subsystem (L2)'] == selected_l2) &
                                  (data['LRU (L3)'] == selected_l3)].copy()
+            filtered_data['Failure Rate'] = filtered_data['Total Jumlah Gangguan'] / filtered_data['TTF (jam)']
+            st.write(filtered_data[['TTF (jam)', 'Total Jumlah Gangguan', 'Failure Rate']].style.format({'Failure Rate': '{:.9f}'}))
+            average_failure_rate = filtered_data['Failure Rate'].mean()
+            st.write(f"Rata-rata Failure Rate: {average_failure_rate:.9f}")
+            st.write("InterPretasi Data:")
+            st.write(f"Komponen (L3) {selected_l3} didapatkan nilai failure rate sebesar {average_failure_rate:.9f}. Dari data tersebut dapat diinterpretasikan bahwa dalam Runtime Komponen (L3) {selected_l3} mengalami laju kegagalan sebesar {average_failure_rate:.9f} selama rentang waktu operasional. Semakin besar nilai failure rate maka semakin sering terjadinya gangguan pada komponen tersebut.")
         elif selected_l1 and selected_l2:
             filtered_data = data[(data['Klasifikasi Komponen (L1)'] == selected_l1) & 
                                  (data['Klasifikasi System/ Subsystem (L2)'] == selected_l2)].copy()
+            filtered_data['Failure Rate'] = filtered_data['Total Jumlah Gangguan'] / filtered_data['TTF (jam)']
+            average_failure_rate_l3 = filtered_data.groupby('LRU (L3)')['Failure Rate'].mean().reset_index()
+            st.write(average_failure_rate_l3.style.format({'Failure Rate': '{:.9f}'}))
+            for index, row in average_failure_rate_l3.iterrows():
+                l3 = row['LRU (L3)']
+                rate = row['Failure Rate']
+            average_failure_rate_l2 = average_failure_rate_l3['Failure Rate'].sum()
+            st.write(f"\nRata-rata Failure Rate untuk Klasifikasi System/ Subsystem (L2) {selected_l2}: {average_failure_rate_l2:.9f}")
+            st.write("Interpretasi Data:")
+            st.write(f"Komponen (L2) {selected_l2} didapatkan nilai failure rate sebesar {average_failure_rate_l2:.9f}. Dari data tersebut dapat diinterpretasikan bahwa dalam Runtime Komponen (L3) {selected_l2} mengalami laju kegagalan sebesar {average_failure_rate_l2:.9f} selama rentang waktu operasional. Semakin besar nilai failure rate maka semakin sering terjadinya gangguan pada komponen tersebut.")
+            
         elif selected_l1:
             filtered_data = data[data['Klasifikasi Komponen (L1)'] == selected_l1].copy()
         else:
             filtered_data = data.copy()
 
-        filtered_data['Failure Rate'] = filtered_data['Total Jumlah Gangguan'] / filtered_data['TTF (jam)']
-        st.write(filtered_data[['TTF (jam)', 'Total Jumlah Gangguan', 'Failure Rate']].style.format({'Failure Rate': '{:.9f}'}))
+        
 
-        # st.write(filtered_data.style.format({'Failure Rate': '{:.9f}'}))
-
-        average_failure_rate = filtered_data['Failure Rate'].mean()
-        st.write(f"Rata-rata Failure Rate: {average_failure_rate:.9f}")
         plot_interactive_weibull(filtered_data['TTF (jam)'])
     else:
         st.sidebar.warning('Kolom "Klasifikasi Komponen (L1)", "Klasifikasi System/ Subsystem (L2)", atau "LRU (L3)" tidak ditemukan dalam data.')
